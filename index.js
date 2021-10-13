@@ -36,40 +36,12 @@ app.get("/c", () => {
 app.get("/a", async (req, res) => {
   const userlist = await saveData.getUser();
   const result = await main(userlist);
-  result.forEach((item) => {
-    const {
-      username,
-      dec,
-      erc,
-      rating,
-      power,
-      winrate,
-      quest,
-      lastganme,
-      lastdec,
-      lastclaim,
-      afk,
-    } = item;
-    saveData.updateUser(
-      username,
-      dec,
-      erc,
-      rating,
-      power,
-      winrate,
-      quest,
-      lastganme,
-      lastdec,
-      lastclaim,
-      afk
-    );
-  });
 });
 app.get("/b", async (req, res) => {
-  let perPage = 10; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
   let page = req.query.page || 1;
 
-  User.find() // find tất cả các data
+  User.find({ dec: { $exists: true } }) // find tất cả các data
     .skip(perPage * page - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
     .limit(perPage)
     .exec((err, products) => {

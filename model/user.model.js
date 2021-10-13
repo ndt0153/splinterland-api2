@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   dec: { type: Number },
   erc: { type: Number },
   rating: { type: Number },
@@ -12,7 +12,7 @@ const userSchema = new Schema({
   total: { type: Number },
   winrate: { type: Number },
   quest: { type: String },
-  lastganme: { type: String },
+  lastgame: { type: String },
   lastdec: { type: String },
   lastclaim: { type: String },
   afk: { type: Number },

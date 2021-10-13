@@ -34,24 +34,32 @@ const updateUser = (
   erc,
   rating,
   power,
+  win,
+  lose,
+  draw,
+  total,
   winrate,
   quest,
-  lastganme,
+  lastgame,
   lastdec,
   lastclaim,
   afk
 ) => {
   User.updateOne(
-    { username: username },
+    { username: username, lastgame: { $exists: false } },
     {
       $set: {
         dec,
         erc,
         rating,
         power,
+        win,
+        lose,
+        draw,
+        total,
         winrate,
         quest,
-        lastganme,
+        lastgame,
         lastdec,
         lastclaim,
         afk,
@@ -62,7 +70,7 @@ const updateUser = (
         console.log(err);
         console.log("Khong the update user vao db");
       } else {
-        console.log("Da update" + username + "vao db");
+        console.log("Da update  " + username + "  vao db");
       }
     }
   );

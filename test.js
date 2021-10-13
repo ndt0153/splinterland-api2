@@ -2,7 +2,7 @@ const ta = require("time-ago");
 const axios = require("axios");
 const date = require("date-and-time");
 var Table = require("cli-table");
-const saveData = require("./save");
+
 const getInfo = async (username, callback) => {
   const req1 = axios.get(
     "https://api2.splinterlands.com/battle/history?player=" +
@@ -174,9 +174,8 @@ const checkInfo = async (userList) => {
   let result = [];
   for (const username of userList) {
     await new Promise((resolve, reject) => {
-      setTimeout(async () => {
+      setTimeout(() => {
         //console.log("Getting data of user: %s", username);
-        console.log("da goi lan thu");
         let battleResult;
         let balance;
         let details;
@@ -197,7 +196,7 @@ const checkInfo = async (userList) => {
             lastestQuest = getLastestClaimQuestTime(result[5]);
           }
         });
-        let result2 = [];
+
         let data = {
           ...{
             username: username,
@@ -210,153 +209,94 @@ const checkInfo = async (userList) => {
           lastestQuest,
           afk,
         };
-        result2.push(data);
-        let filter = process.argv[2];
-        let i = 9;
-        if (filter === "username") {
-          i = 0;
-        }
-        if (filter === "rating") {
-          i = 3;
-        }
-        if (filter === "power") {
-          i = 4;
-        }
-        if (filter === "total") {
-          i = 8;
-        }
-        if (filter === "dec") {
-          i = 1;
-        }
-        if (filter === "quest") {
-          i = 10;
-        }
-        if (filter === "erc") {
-          i = 2;
-        }
-        if (filter === "lgame") {
-          i = 11;
-        }
-        if (filter === "questtime") {
-          i = 13;
-        }
-        if (filter === "afk") {
-          i = 14;
-        }
-        var dataTable = result2
-          .map((item) => {
-            return [
-              item.username ?? "",
-              item.balance ?? 0,
-              item.erc ?? 0,
-              item.rating ?? 0,
-              item.power ?? 0,
-              item.win ?? 0,
-              item.lose ?? 0,
-              item.draw ?? 0,
-              item.total ?? 0,
-              item.winRate ?? 0,
-              item.quest ?? "",
-              item.lastest ?? "",
-              item.amount
-                ? item.amount + "  -  " + item.timeClaim
-                : "Not found",
-              item.lastestQuest ?? "999 days ago",
-              item.afk ?? -1,
-            ];
-          })
-          .sort((a, b) => {
-            if (i === 10) {
-              return a[i].localeCompare(b[i]);
-            }
-            if (i === 13) {
-              console.log(a[i], b[i]);
-              return (
-                ta.timefriendly(a[i].split(" ").slice(0, 2).join(" ")) -
-                ta.timefriendly(b[i].split(" ").slice(0, 2).join(" "))
-              );
-            }
-            return a[i] - b[i];
-          });
-        // console.log(dataTable);
-        const result3 = dataTable.map(function (ele, index) {
-          return {
-            id: index + 1,
-            username: ele[0],
-            dec: ele[1],
-            erc: ele[2],
-            rating: ele[3],
-            power: ele[4],
-            win: ele[5],
-            lose: ele[6],
-            draw: ele[7],
-            total: ele[8],
-            winrate: ele[9],
-            quest: ele[10],
-            lastgame: ele[11],
-            lastdec: ele[12],
-            lastclaim: ele[13],
-            afk: ele[14],
-          };
-        });
-        console.log(result3);
-        /* result3.forEach((item) => {
-          const {
-            username,
-            dec,
-            erc,
-            rating,
-            power,
-            win,
-            lose,
-            draw,
-            total,
-            winrate,
-            quest,
-            lastgame,
-            lastdec,
-            lastclaim,
-            afk,
-          } = item;
-          saveData.updateUser(
-            username,
-            dec,
-            erc,
-            rating,
-            power,
-            win,
-            lose,
-            draw,
-            total,
-            winrate,
-            quest,
-            lastgame,
-            lastdec,
-            lastclaim,
-            afk
-          );
-        }); */
-        resolve(result);
-        //return dataTable;
+        result.push(data);
+
         // console.log("Done: %s", username);
-      }, 500);
+      }, 1000);
     });
   }
-
+  let filter = process.argv[2];
+  let i = 9;
+  if (filter === "username") {
+    i = 0;
+  }
+  if (filter === "rating") {
+    i = 3;
+  }
+  if (filter === "power") {
+    i = 4;
+  }
+  if (filter === "total") {
+    i = 8;
+  }
+  if (filter === "dec") {
+    i = 1;
+  }
+  if (filter === "quest") {
+    i = 10;
+  }
+  if (filter === "erc") {
+    i = 2;
+  }
+  if (filter === "lgame") {
+    i = 11;
+  }
+  if (filter === "questtime") {
+    i = 13;
+  }
+  if (filter === "afk") {
+    i = 14;
+  }
+  var dataTable = data
+    .map((item) => {
+      return [
+        item.username ?? "",
+        item.balance ?? 0,
+        item.erc ?? 0,
+        item.rating ?? 0,
+        item.power ?? 0,
+        item.win ?? 0,
+        item.lose ?? 0,
+        item.draw ?? 0,
+        item.total ?? 0,
+        item.winRate ?? 0,
+        item.quest ?? "",
+        item.lastest ?? "",
+        item.amount ? item.amount + "  -  " + item.timeClaim : "Not found",
+        item.lastestQuest ?? "999 days ago",
+        item.afk ?? -1,
+      ];
+    })
+    .sort((a, b) => {
+      if (i === 10) {
+        return a[i].localeCompare(b[i]);
+      }
+      if (i === 13) {
+        console.log(a[i], b[i]);
+        return (
+          ta.timefriendly(a[i].split(" ").slice(0, 2).join(" ")) -
+          ta.timefriendly(b[i].split(" ").slice(0, 2).join(" "))
+        );
+      }
+      return a[i] - b[i];
+    });
   let totalDEC = 0;
   let totalPower = 0;
-  /* dataTable.forEach((data, index) => {
+  dataTable.forEach((data, index) => {
     table.push([index + 1, ...data]);
     totalDEC += parseInt(data[1]);
     totalPower += parseInt(data[4]);
   });
-  return dataTable; */
+  return dataTable;
+  console.log(table.toString());
+  console.log("Total Dec: %d", totalDEC);
+  console.log("Total Power: %d", totalPower);
 };
 
 const main = async (userList) => {
-  const userlist = ["alsinahrroulekqv", "basdenjgruscio0", "critzinbeasxve"];
   const raw = await checkInfo(userList);
-  /*  const result = raw.map(function (ele, index) {
+
+  const result = raw.map(function (ele, index) {
     return {
       id: index + 1,
       username: ele[0],
@@ -375,7 +315,7 @@ const main = async (userList) => {
       lastclaim: ele[13],
       afk: ele[14],
     };
-  }); */
-  //return result;
+  });
+  return result;
 };
 module.exports = main;
