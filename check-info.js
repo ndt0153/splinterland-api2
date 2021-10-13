@@ -176,7 +176,7 @@ const checkInfo = async (userList) => {
     await new Promise((resolve, reject) => {
       setTimeout(async () => {
         //console.log("Getting data of user: %s", username);
-        console.log("da goi lan thu");
+
         let battleResult;
         let balance;
         let details;
@@ -300,7 +300,7 @@ const checkInfo = async (userList) => {
           };
         });
         console.log(result3);
-        /* result3.forEach((item) => {
+        result3.forEach((item) => {
           const {
             username,
             dec,
@@ -335,7 +335,7 @@ const checkInfo = async (userList) => {
             lastclaim,
             afk
           );
-        }); */
+        });
         resolve(result);
         //return dataTable;
         // console.log("Done: %s", username);
