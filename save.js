@@ -6,6 +6,13 @@ const getUser = async () => {
   });
   return userList;
 };
+const getUserbyUsername = async (array) => {
+  const rawList = await User.find({ username: { $in: array } }, "_id").exec();
+  let userList = rawList.map(function (raw) {
+    return raw._id;
+  });
+  return userList;
+};
 const uploadUser = (users) => {
   User.insertMany(users, function (err, docs) {
     if (err) {
@@ -75,4 +82,29 @@ const updateUser = (
     }
   );
 };
-module.exports = { uploadUser, getUser, updateUser, getUserPaging };
+const updateUserGroup = async (username, group) => {
+  User.updateOne(
+    { username: username },
+    {
+      $set: {
+        group,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        console.log("Khong the update user vao db");
+      } else {
+        console.log("Da update  " + username + "  vao db");
+      }
+    }
+  );
+};
+module.exports = {
+  uploadUser,
+  getUser,
+  updateUser,
+  getUserPaging,
+  getUserbyUsername,
+  updateUserGroup,
+};

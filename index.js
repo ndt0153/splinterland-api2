@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const cors = require("cors");
 app.use(cors());
 const mongoose = require("mongoose");
@@ -7,6 +8,7 @@ const dbConnect = require("./db");
 const saveData = require("./save");
 const main = require("./check-info.js");
 const User = require("./model/user.model");
+const List = require("./model/list.model");
 const userlist2 = require("./userlist");
 mongoose.Promise = global.Promise;
 
@@ -21,6 +23,9 @@ mongoose
     console.log("Failed connect DB", err);
     process.exit();
   });
+//Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.listen(2000, () => {
   console.log("App running on port 2000");
@@ -64,4 +69,22 @@ app.get("/b", async (req, res) => {
         res.send({ products, page, count }); // Trả về dữ liệu các sản phẩm theo định dạng như JSON, XML,...
       });
     });
+});
+app.post("/group", async (req, res) => {
+  /*  const reqArray = {
+    name: "nhom2",
+    array: ["pilefwdahmankjw"],
+  }; */
+  const reqData = req.body;
+  List.create(reqData);
+  reqData.array.forEach((item) => {
+    saveData.updateUserGroup(item, reqData.name);
+  });
+  res.send({ status: "ok" });
+});
+app.get("/group", async (req, res) => {
+  List.find({}, "name").exec(function (err, list) {
+    if (err) return err;
+    res.json(list);
+  });
 });

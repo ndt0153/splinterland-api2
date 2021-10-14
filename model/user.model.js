@@ -16,6 +16,7 @@ const userSchema = new Schema({
   lastdec: { type: String },
   lastclaim: { type: String },
   afk: { type: Number },
+  group: { type: String, unique: true },
 });
 
 module.exports = mongoose.model("User", userSchema, "User");

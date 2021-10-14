@@ -10,11 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.23.0",
+    "body-parser": "^1.19.0",
     "cli-table": "^0.3.6",
     "cors": "^2.8.5",
     "date-and-time": "^2.0.1",
     "express": "^4.17.1",
     "mongoose": "^6.0.10",
+    "mongoose-auto-increment": "^5.0.1",
     "nodemon": "^2.0.13",
     "time-ago": "^0.2.1"
   }
