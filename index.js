@@ -38,7 +38,7 @@ app.get("/a", async (req, res) => {
   const result = await main(userlist);
 });
 app.get("/b", async (req, res) => {
-  let perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+  let perPage = 1000; // số lượng sản phẩm xuất hiện trên 1 page
   let page = req.query.page || 1;
 
   User.find({ dec: { $exists: true } }) // find tất cả các data
