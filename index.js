@@ -37,6 +37,18 @@ app.get("/a", async (req, res) => {
   const userlist = await saveData.getUser();
   const result = await main(userlist);
 });
+app.get("/totalDEC", async (req, res) => {
+  User.aggregate([
+    { $match: {} },
+    { $group: { _id: null, sum: { $sum: "$dec" } } },
+  ]).then((sum) => res.send({ total: sum[0].sum }));
+});
+app.get("/totalPower", async (req, res) => {
+  User.aggregate([
+    { $match: {} },
+    { $group: { _id: null, sum: { $sum: "$power" } } },
+  ]).then((sum) => res.send({ total: sum[0].sum }));
+});
 app.get("/b", async (req, res) => {
   let perPage = 2293; // số lượng sản phẩm xuất hiện trên 1 page
   let page = req.query.page || 1;
