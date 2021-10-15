@@ -1,6 +1,6 @@
 const User = require("./model/user.model");
 const getUser = async () => {
-  const rawList = await User.find({}, "username").exec();
+  const rawList = await User.find({ dec: 0 }, "username").exec();
   let userList = rawList.map(function (raw) {
     return raw.username;
   });
