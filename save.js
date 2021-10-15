@@ -53,7 +53,7 @@ const updateUser = (
   afk
 ) => {
   User.updateOne(
-    { username: username, lastgame: { $exists: false } },
+    { username: username },
     {
       $set: {
         dec,
