@@ -243,6 +243,7 @@ const checkInfo = async (userList) => {
         if (filter === "afk") {
           i = 14;
         }
+
         var dataTable = result2
           .map((item) => {
             return [
@@ -339,7 +340,7 @@ const checkInfo = async (userList) => {
         resolve(result);
         //return dataTable;
         // console.log("Done: %s", username);
-      }, 500);
+      }, 1000);
     });
   }
 
