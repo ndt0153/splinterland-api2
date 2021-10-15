@@ -83,6 +83,7 @@ function getRewardsQuestDEC(data1) {
 }
 const getBattlesResult = (data0, username) => {
   const today = new Date(new Date().setHours(0, 0, 0, 0));
+  console.log(today);
   let todayBattles = data0.data.battles.filter((battle) => {
     return date.isSameDay(today, new Date(battle.created_date));
   });
