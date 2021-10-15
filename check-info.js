@@ -340,7 +340,7 @@ const checkInfo = async (userList) => {
         resolve(result);
         //return dataTable;
         // console.log("Done: %s", username);
-      }, 1200);
+      }, 600);
     });
   }
 
