@@ -30,13 +30,14 @@ app.use(bodyParser.json());
 app.listen(2000, () => {
   console.log("App running on port 2000");
 });
-app.get("/c", () => {
+app.post("/c", (req, res) => {
   const result = userlist2.map(function (ele) {
     return {
       username: ele,
     };
   });
   saveData.uploadUser(result);
+  res.send({ status: "ok" });
 });
 app.get("/a", async (req, res) => {
   const userlist = await saveData.getUser();
@@ -81,6 +82,25 @@ app.post("/group", async (req, res) => {
     saveData.updateUserGroup(item, reqData.name);
   });
   res.send({ status: "ok" });
+});
+app.post("/delete-group", async (req, res) => {
+  const reqData = req.body;
+  console.log(reqData);
+  reqData.forEach((item) => {
+    List.deleteOne({ name: item }, (err, result) => {
+      if (err) {
+        console.log(err);
+        console.log("Khong the update vao db");
+      } else {
+        console.log("Da xoa thanh cong ");
+      }
+    });
+  });
+  let empty = "";
+  reqData.forEach((item) => {
+    saveData.updateUserGroup(item, empty);
+  });
+  res.send({ ok: "ok" });
 });
 app.get("/group-name", async (req, res) => {
   List.find({}, "name").exec(function (err, list) {
