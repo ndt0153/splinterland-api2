@@ -56,18 +56,13 @@ app.get("/totalPower", async (req, res) => {
   ]).then((sum) => res.send({ total: sum[0].sum }));
 });
 app.get("/b", async (req, res) => {
-  let perPage = 2293; // số lượng sản phẩm xuất hiện trên 1 page
-  let page = req.query.page || 1;
-
-  User.find({ dec: { $exists: true } }) // find tất cả các data
-    .skip(perPage * page - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
-    .limit(perPage)
+  User.find({}) // find tất cả các data
     .exec((err, products) => {
       User.countDocuments((err, count) => {
         // đếm để tính có bao nhiêu trang
         if (err) return next(err);
-        page = Math.ceil(count / perPage);
-        res.send({ products, page, count }); // Trả về dữ liệu các sản phẩm theo định dạng như JSON, XML,...
+
+        res.send({ products }); // Trả về dữ liệu các sản phẩm theo định dạng như JSON, XML,...
       });
     });
 });

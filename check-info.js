@@ -8,32 +8,32 @@ const getInfo = async (username, callback) => {
     "https://api2.splinterlands.com/battle/history?player=" +
       username.toLowerCase()
   );
-  const req2 = axios.get(
+  /* const req2 = axios.get(
     "https://api2.splinterlands.com/players/balance_history?token_type=DEC&offset=0&limit=500&v=1630134828010&token=7O6I59GSSG&username=" +
       username
-  );
+  ); */
   const req3 = axios.get(
     "https://api.splinterlands.io/players/balances?username=" +
       username.toLowerCase()
   );
-  const req4 = axios.get(
+  /* const req4 = axios.get(
     "https://api2.splinterlands.com/players/quests?username=" +
       username.toLowerCase()
-  );
+  ); */
   const req5 = axios.get(
     "https://api2.splinterlands.com/players/details?name=" +
       username.toLowerCase()
   );
-  const req6 = axios.get(
+  /* const req6 = axios.get(
     `https://api.steemmonsters.io/players/history?username=${username.toLowerCase()}&from_block=-1&limit=250&types=pack_purchase,open_pack,open_all,market_purchase,market_sale,gift_cards,gift_packs,combine_cards,combine_all,sell_cards,cancel_sell,card_award,claim_reward,mystery_reward,market_rent,market_renew_rental,market_list,market_cancel_rental`
-  );
-  const req7 = axios.get(
+  ); */
+  /*  const req7 = axios.get(
     "https://api2.splinterlands.com/battle/history2?player=" +
       username.toLowerCase()
-  );
+  ); */
   //console.log(process.argv[3] == "backup");
   if (process.argv[3] == "backup") {
-    await Promise.all([req1, req2, req3, req4, req5])
+    await Promise.all([req1, req3, req5])
       .then((data) => {
         callback(data);
       })
@@ -42,7 +42,7 @@ const getInfo = async (username, callback) => {
       });
     return;
   } else {
-    await Promise.all([req1, req2, req3, req4, req5, req6, req7])
+    await Promise.all([req1, req3, req5])
       .then((data) => {
         callback(data);
       })
@@ -187,16 +187,8 @@ const checkInfo = async (userList) => {
         let afk;
         await getInfo(username, (result) => {
           battleResult = getBattlesResult(result[0], username);
-          balance = getBalance(result[2]);
-          details = getDetails(result[4]);
-          quest = getQuest(result[3]);
-          reward = getRewardsQuestDEC(result[1]);
-          afk = getAfkGame(result[6]);
-          if (process.argv[3] == "backup") {
-            lastestQuest = "Ignore";
-          } else {
-            lastestQuest = getLastestClaimQuestTime(result[5]);
-          }
+          balance = getBalance(result[1]);
+          details = getDetails(result[2]);
         });
         let result2 = [];
         let data = {
@@ -341,7 +333,7 @@ const checkInfo = async (userList) => {
         resolve(result);
         //return dataTable;
         // console.log("Done: %s", username);
-      }, 7000);
+      }, 5000);
     });
   }
 
