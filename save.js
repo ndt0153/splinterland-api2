@@ -83,12 +83,15 @@ const updateUser = (
   );
 };
 const updateUserGroup = async (username, group) => {
-  User.updateOne(
+  User.findOneAndUpdate(
     { username: username },
     {
       $set: {
         group,
       },
+    },
+    {
+      upsert: true,
     },
     (err, result) => {
       if (err) {
