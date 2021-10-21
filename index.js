@@ -62,7 +62,7 @@ app.get("/b", async (req, res) => {
         // đếm để tính có bao nhiêu trang
         if (err) return next(err);
 
-        res.send({ products }); // Trả về dữ liệu các sản phẩm theo định dạng như JSON, XML,...
+        res.send({ products, count }); // Trả về dữ liệu các sản phẩm theo định dạng như JSON, XML,...
       });
     });
 });
