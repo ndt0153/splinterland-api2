@@ -105,10 +105,12 @@ app.get("/group-name", async (req, res) => {
 });
 app.get("/group", async (req, res) => {
   if (req.query.name) {
-    User.find({ group: req.query.name }).exec(function (err, list) {
-      if (err) return err;
-      res.json(list);
-    });
+    User.find({ group: req.query.name })
+      .sort({ datefield: -1 })
+      .exec(function (err, list) {
+        if (err) return err;
+        res.json(list);
+      });
   } else {
     const firstList = await List.find({}, "name").exec();
     const result = firstList[0].name;
