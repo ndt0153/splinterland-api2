@@ -106,7 +106,7 @@ app.get("/group-name", async (req, res) => {
 app.get("/group", async (req, res) => {
   if (req.query.name) {
     User.find({ group: req.query.name })
-      .sort({ date: -1 })
+      .sort({ updatedAt: "desc" })
       .exec(function (err, list) {
         if (err) return err;
         res.json(list);
